@@ -1,14 +1,35 @@
 package main;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import gui.admin.AdminMainFrame;
 import gui.common.LoginFrame;
 import javax.swing.UIManager;
 import javax.swing.SwingUtilities;
 import java.awt.Font;
 
+// Thêm thư viện để test kết nối
+import java.sql.Connection;
+import dao.MySQLConnect;
+
 public class Main {
     public static void main(String[] args) {
+        
+        // --- BẮT ĐẦU PHẦN KIỂM TRA KẾT NỐI DATABASE ---
+        System.out.println("Đang kiểm tra kết nối CSDL...");
+        Connection conn = MySQLConnect.getConnection();
+        
+        if (conn != null) {
+            System.out.println("✅ CHÚC MỪNG! KẾT NỐI DATABASE THÀNH CÔNG!");
+            try {
+                conn.close(); // Tạm đóng kết nối sau khi test xong
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("❌ KẾT NỐI THẤT BẠI. Vui lòng kiểm tra lại XAMPP/MySQL hoặc db.properties!");
+        }
+        // --- KẾT THÚC PHẦN KIỂM TRA ---
+
+
         // 1. Thiết lập giao diện hiện đại với FlatLaf
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
@@ -25,5 +46,6 @@ public class Main {
             LoginFrame login = new LoginFrame();
             login.setVisible(true);
         });
+        
     }
 }

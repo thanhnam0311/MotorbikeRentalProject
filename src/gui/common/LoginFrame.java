@@ -6,7 +6,6 @@ import bus.TaiKhoanBUS;
 import utils.SessionUser;
 import dto.TaiKhoanDTO;
 import gui.admin.AdminMainFrame;
-import gui.customer.CustomerMainFrame;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -144,21 +143,18 @@ public class LoginFrame extends JFrame {
             // Lưu thông tin người dùng vào Session để dùng cho các tính năng sau
             SessionUser.setCurrentUser(account);
 
-            /*JOptionPane.showMessageDialog(this, "Đăng nhập thành công! Xin chào " + account.getFullName(),
-                    "Thành công", JOptionPane.INFORMATION_MESSAGE);*/
+            JOptionPane.showMessageDialog(this, "Đăng nhập thành công! Xin chào " + account.getFullName(),
+                    "Thành công", JOptionPane.INFORMATION_MESSAGE);
 
             // Phân quyền chuyển trang
-            if (account.getRole() != null && account.getRole().equalsIgnoreCase("ADMIN")) {
-                AdminMainFrame adminFrame = new AdminMainFrame();
-                adminFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                adminFrame.setVisible(true);
-            } else {
-                // Customer
-                CustomerMainFrame customerFrame = new CustomerMainFrame();
-                customerFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                customerFrame.setVisible(true);
-            }
-            this.dispose(); // Đóng form Login lại
+            // Phân quyền chuyển trang
+    if (account.getRole().equals("ADMIN")) {
+    new AdminMainFrame().setVisible(true); 
+        } else {
+    // Kích hoạt giao diện Khách hàng vừa tạo
+    new gui.customer.CustomerMainFrame().setVisible(true); 
+        }
+        this.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Sai tên đăng nhập, mật khẩu hoặc tài khoản bị khóa!",
                     "Lỗi Đăng Nhập", JOptionPane.ERROR_MESSAGE);
